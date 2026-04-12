@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Православный календарь — даты Пасхи, Масленицы, Троицы и постов</title>
+   
+    <!-- Основные мета-теги для поисковых систем -->
+    <meta name="description" content="Расчёт дат переходящих православных праздников: Пасха, Масленица, Прощёное воскресенье, Великий пост, Вербное воскресенье, Вознесение, Троица, Петров пост. По григорианскому календарю.">
+    <meta name="keywords" content="Пасха, православная пасха, дата пасхи, масленица, троица, великий пост, вербное воскресенье, православный календарь, переходящие праздники, расчёт пасхи, гаусс">
+    <meta name="author" content="Evgen Mironov">
+    <meta name="copyright" content="Evgen Mironov">
+    
+    <!-- Для Яндекса (явное указание) -->
+    <meta name="yandex-verification" content=""><!-- если получите код верификации от Яндекса, вставите сюда -->
+    
+    <!-- Для Google и общее SEO -->
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="ru">
+    
+    <!-- Open Graph (для красивых ссылок в соцсетях и мессенджерах) -->
+    <meta property="og:title" content="Православный календарь переходящих праздников">
+    <meta property="og:description" content="Пасха, Масленица, Троица, Великий пост и другие даты — быстрый расчёт по формулам Гаусса">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://evgenmironov900.github.io/pascha/">
+    <meta property="og:image" content="https://evgenmironov900.github.io/pascha/og-image.png"><!-- если добавите картинку позже -->
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- Twitter Card (аналогично) -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Православный календарь переходящих праздников">
+    <meta name="twitter:description" content="Расчёт дат Пасхи, Масленицы, Троицы и других праздников">
+    
+    <!-- Иконка для вкладки браузера (опционально, создайте потом favicon.ico) -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="manifest" href="site.webmanifest">    
+<style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            max-width: 600px;
+            margin: 1rem auto;
+            padding: 1rem;
+            background: #fef7e0;
+            color: #2c2b28;
+        }
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 0.2rem;
+        }
+        .sub {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6b5a3e;
+            margin-bottom: 1.5rem;
+        }
+        .input-panel {
+            background: #fff2df;
+            padding: 1rem;
+            border-radius: 24px;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        label {
+            font-weight: 600;
+        }
+        input {
+            font-size: 1.2rem;
+            padding: 0.4rem 0.8rem;
+            width: 100px;
+            text-align: center;
+            border: 1px solid #d4b87a;
+            border-radius: 20px;
+            background: white;
+        }
+        button {
+            background: #d4a373;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 32px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        button:active {
+            background: #b8824a;
+            transform: scale(0.97);
+        }
+        .card {
+            background: white;
+            border-radius: 32px;
+            padding: 0.2rem 0 0.8rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .event {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.7rem 1.2rem;
+            border-bottom: 1px solid #f0e2cf;
+            font-size: 1rem;
+            flex-wrap: wrap;
+        }
+        .event-name {
+            font-weight: 500;
+            color: #3b2a1f;
+        }
+        .event-date {
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #b45309;
+        }
+        .pascha {
+            background: #fff1e0;
+            border-radius: 40px;
+            margin: 0.5rem 0.5rem 0 0.5rem;
+            font-weight: bold;
+        }
+        .pascha .event-name {
+            font-size: 1.1rem;
+        }
+        .pascha .event-date {
+            font-size: 1.2rem;
+            color: #c2410c;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.7rem;
+            margin-top: 1.5rem;
+            color: #8b7658;
+        }
+        @media (max-width: 480px) {
+            .event {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            .event-date {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>📆 Православный календарь</h1>
+<div class="sub">Переходящие праздники (от Пасхи)</div>
+
+<div class="input-panel">
+    <label for="year">Год</label>
+    <input type="number" id="year" value="2026" step="1">
+    <button onclick="updateAll()">Показать</button>
+</div>
+
+<div class="card" id="datesContainer">
+    <!-- сюда js вставит список дат -->
+    <div style="padding: 1rem; text-align: center;">Загрузка...</div>
+</div>
+<div class="footer">
+    По григорианскому календарю. Расчёт на основе формул К. Гаусса (православная Пасха).
+</div>
+
+<script>
+    // ---- ТОЧНЫЙ РАСЧЁТ ПАСХИ (ваша формула, григорианский стиль) ----
+    function getPascha(year) {
+        let a = year % 4;
+        let b = year % 7;
+        let c = year % 19;
+        let d = (19 * c + 15) % 30;
+        let e = (2 * a + 4 * b + 6 * d + 6) % 7;
+        let f = d + e + 4;
+        let day = (f <= 30) ? f : f - 30;
+        let month = (f <= 30) ? 4 : 5; // 4 = апрель, 5 = май
+        return new Date(year, month - 1, day);
+    }
+
+    // ---- ВСПОМОГАТЕЛЬНАЯ: прибавить дни к дате ----
+    function addDays(date, days) {
+        let result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    }
+
+    // ---- ФОРМАТИРОВАНИЕ "день месяц" (например, "12 апреля") ----
+    function formatDate(date) {
+        const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        return `${date.getDate()} ${months[date.getMonth()]}`;
+    }
+
+    // ---- ГЛАВНАЯ ФУНКЦИЯ ОБНОВЛЕНИЯ ----
+    function updateAll() {
+        let yearInput = document.getElementById('year');
+        let year = parseInt(yearInput.value);
+        if (isNaN(year) || year < 1) {
+            year = new Date().getFullYear();
+            yearInput.value = year;
+        }
+
+        const paschaDate = getPascha(year);
+
+        // Все события относительно Пасхи (смещение в днях)
+        const events = [
+            { name: "Масленица", offsetStart: -56, offsetEnd: -50, type: "range" },
+            { name: "Прощёное воскресенье", offset: -49, type: "single" },
+            { name: "Великий пост", offsetStart: -48, offsetEnd: -1, type: "range" },
+            { name: "Вербное воскресенье", offset: -7, type: "single" },
+            { name: "🌷 ПАСХА", offset: 0, type: "pascha" },
+            { name: "Вознесение Господне", offset: 40, type: "single" },
+            { name: "ТРОИЦА (Пятидесятница)", offset: 50, type: "single" },
+            { name: "День Святого Духа", offset: 51, type: "single" }
+        ];
+
+        let html = '';
+
+        for (let ev of events) {
+            if (ev.type === "pascha") {
+                html += `<div class="event pascha">
+                            <span class="event-name">${ev.name}</span>
+                            <span class="event-date">${formatDate(paschaDate)}</span>
+                         </div>`;
+            }
+            else if (ev.type === "single") {
+                let date = addDays(paschaDate, ev.offset);
+                html += `<div class="event">
+                            <span class="event-name">${ev.name}</span>
+                            <span class="event-date">${formatDate(date)}</span>
+                         </div>`;
+            }
+            else if (ev.type === "range") {
+                let start = addDays(paschaDate, ev.offsetStart);
+                let end = addDays(paschaDate, ev.offsetEnd);
+                // Чтобы диапазон выглядел компактно: "15–21 февраля"
+                let startStr = formatDate(start);
+                let endStr = formatDate(end);
+                // убираем повтор месяца, если месяц не изменился
+                let startParts = startStr.split(' ');
+                let endParts = endStr.split(' ');
+                let rangeStr = '';
+                if (startParts[1] === endParts[1]) {
+                    rangeStr = `${startParts[0]}–${endParts[0]} ${startParts[1]}`;
+                } else {
+                    rangeStr = `${startStr} – ${endStr}`;
+                }
+                html += `<div class="event">
+                            <span class="event-name">${ev.name}</span>
+                            <span class="event-date">${rangeStr}</span>
+                         </div>`;
+            }
+        }
+
+        // Дополнительно можно добавить Петров пост (необязательно, но многие спрашивают)
+        // Петров пост начинается через 57 дней после Пасхи (понедельник), длится до 12 июля.
+        const peterStart = addDays(paschaDate, 57);
+        const peterEnd = new Date(year, 6, 12); // 12 июля
+        if (peterStart <= peterEnd) {
+            let startStr = formatDate(peterStart);
+            let endStr = formatDate(peterEnd);
+            html += `<div class="event">
+                        <span class="event-name">Петров пост</span>
+                        <span class="event-date">${startStr} – ${endStr}</span>
+                     </div>`;
+        }
+
+        document.getElementById('datesContainer').innerHTML = html;
+    }
+
+    // Запуск при загрузке и при изменении года (по кнопке)
+    window.onload = () => {
+        updateAll();
+        document.getElementById('year').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') updateAll();
+        });
+    };
+</script>
+</body>
+</html>
+
