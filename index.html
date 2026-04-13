@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Православный календарь — даты Пасхи, Масленицы, Троицы и постов</title>
+    <title>Пасхалия</title>
    
     <!-- Основные мета-теги для поисковых систем -->
     <meta name="description" content="Расчёт дат переходящих православных праздников: Пасха, Масленица, Прощёное воскресенье, Великий пост, Вербное воскресенье, Вознесение, Троица, Петров пост. По григорианскому календарю.">
@@ -140,6 +140,15 @@
             margin-top: 1.5rem;
             color: #8b7658;
         }
+        .footer a {
+            color: #8b7658;
+            text-decoration: none;
+            border-bottom: 1px dotted #8b7658;
+        }
+        .footer a:hover {
+            color: #d4a373;
+            border-bottom: 1px solid #d4a373;
+        }
         @media (max-width: 480px) {
             .event {
                 padding: 0.6rem 1rem;
@@ -166,9 +175,8 @@
     <div style="padding: 1rem; text-align: center;">Загрузка...</div>
 </div>
 <div class="footer">
-    По григорианскому календарю. Расчёт на основе формул К. Гаусса (православная Пасха).
+    <a href="https://github.com/EvgenMironov900/pascha/blob/main/README.md" target="_blank">О программе</a> &nbsp;|&nbsp; v1.0
 </div>
-
 <script>
     // ---- ТОЧНЫЙ РАСЧЁТ ПАСХИ (ваша формула, григорианский стиль) ----
     function getPascha(year) {
