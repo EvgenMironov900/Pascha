@@ -12,7 +12,8 @@
 
 ## Использование
 
-1. Откройте [страницу приложения](https://evgenmironov900.github.io/pascha/)
+1. Откройте [страницу приложения](https://evgenmironov900.github.io/pascha/)  
+      https://evgenmironov900.github.io/pascha/
 2. Введите интересующий вас год
 3. Нажмите «Показать» или клавишу Enter
 
