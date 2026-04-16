@@ -42,21 +42,21 @@
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             max-width: 600px;
-            margin: 1rem auto;
-            padding: 1rem;
+            margin: 0.5rem auto;
+            padding: 0.5rem;
             background: #fef7e0;
             color: #2c2b28;
         }
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             text-align: center;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0;
         }
         .sub {
             text-align: center;
             font-size: 0.85rem;
             color: #6b5a3e;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
         }
         .input-panel {
             background: #fff2df;
@@ -67,7 +67,7 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.8rem;
         }
         label {
             font-weight: 600;
@@ -106,7 +106,7 @@
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            padding: 0.7rem 1.2rem;
+            padding: 0.4rem 1rem;
             border-bottom: 1px solid #f0e2cf;
             font-size: 1rem;
             flex-wrap: wrap;
@@ -223,6 +223,8 @@
             { name: "Вербное воскресенье", offset: -7, type: "single" },
             { name: "🌷 ПАСХА", offset: 0, type: "pascha" },
             { name: "Красная горка", offset: 7, type: "single" },
+            { name: "Радоница (родительский день)", offset: 9, type: "single" },
+            { name: "Жёны-мироносицы", offset: 14, type: "single" },
             { name: "Вознесение Господне", offset: 40, type: "single" },
             { name: "ТРОИЦА (Пятидесятница)", offset: 49, type: "single" },
             { name: "День Святого Духа", offset: 50, type: "single" }
@@ -266,8 +268,6 @@
             }
         }
 
-        // Дополнительно можно добавить Петров пост (необязательно, но многие спрашивают)
-        // Петров пост начинается через 57 дней после Пасхи (понедельник), длится до 12 июля.
         const peterStart = addDays(paschaDate, 57);
         const peterEnd = new Date(year, 6, 11); // 12 июля
         if (peterStart <= peterEnd) {
