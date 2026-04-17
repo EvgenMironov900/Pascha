@@ -4,10 +4,10 @@
 
 ## 🚀 Использование
 
-1. Откройте [страницу приложения](https://evgenmironov900.github.io/pascha/) или  
-      https://evgenmironov900.github.io/pascha/
+1. Откройте [страницу приложения](https://evgenmironov900.github.io/Pascha/) или  
+      https://evgenmironov900.github.io/Pascha/
 2. Введите интересующий вас год
-3. Нажмите «Показать» или клавишу Enter
+3. Нажмите «Показать» или клавишу Enterз
 
 ## 🥚 Доступные праздники
 
