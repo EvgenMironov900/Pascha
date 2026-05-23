@@ -225,12 +225,24 @@
         return `${date.getDate()} ${months[date.getMonth()]}`;
     }
 
+    // ---- ФУНКЦИЯ: получить год через 150 дней от текущей даты ----
+    function getYearPlus150Days() {
+        const today = new Date();
+        const futureDate = new Date(today);
+        futureDate.setDate(today.getDate() + 150);
+        return futureDate.getFullYear();
+    }
+
     // ---- ГЛАВНАЯ ФУНКЦИЯ ОБНОВЛЕНИЯ ----
     function updateAll() {
         let yearInput = document.getElementById('year');
         let year = parseInt(yearInput.value);
+        
+        // --- ИСПРАВЛЕНИЕ: год по умолчанию = год текущей даты + 150 дней ---
+        const defaultYear = getYearPlus150Days();
+        
         if (isNaN(year) || year < 1) {
-            year = new Date().getFullYear();
+            year = defaultYear;
             yearInput.value = year;
         }
 
@@ -246,7 +258,7 @@
             { name: "Красная горка", offset: 7, type: "single" },
             { name: "Радоница (родительский день)", offset: 9, type: "single" },
             { name: "Жёны-мироносицы", offset: 14, type: "single" },
-            { name: "Вознесение Господне", offset: 40, type: "single" },
+            { name: "Вознесение Господне", offset: 39, type: "single" },
             { name: "ТРОИЦА (Пятидесятница)", offset: 49, type: "single" },
             { name: "День Святого Духа", offset: 50, type: "single" }
         ];
@@ -322,7 +334,8 @@
                 updateAll();
             }
         });
-    };</script>
+    };
+</script>
 
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
