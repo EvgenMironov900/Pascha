@@ -14,8 +14,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Read, increment and write views
+      - name: Increment counter
         run: |
+          # Читаем текущее число
           current=$(grep -oE '[0-9]+' stats.json)
           if [ -z "$current" ]; then
             current=0
