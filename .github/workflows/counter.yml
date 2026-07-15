@@ -20,18 +20,23 @@ jobs:
             current=0
           fi
           next=$((current + 1))
-          # Эти две строчки появятся в «Job summary» — их будет видно сразу
+
+          # Эти строки появятся в Job summary — их будет видно сразу
           echo "Current: $current" >> $GITHUB_STEP_SUMMARY
           echo "Next: $next" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "{\"views\":$next}" > stats.json
-          echo "::set-output name=changed::true"
+          # Помечаем, что файл изменился
+          echo "changed=true" > "$HOME/counter_changed.flag"
 
       - name: Commit and push only if changed
-        if: steps.count.outputs.changed == 'true'
+        if: success() && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add stats.json
-          git commit -m "Update views to $next" || true
-          git push
+          if [ -f "$HOME/counter_changed.flag" ]; then
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+            git add stats.json
+            git commit -m "Update views to $next" || true
+            git push
+            rm "$HOME/counter_changed.flag"
+          fi
