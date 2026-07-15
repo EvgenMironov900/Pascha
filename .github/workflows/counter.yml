@@ -1,0 +1,32 @@
+name: Counter Update
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read, increment and write views
+        run: |
+          current=$(grep -oE '[0-9]+' stats.json)
+          if [ -z "$current" ]; then
+            current=0
+          fi
+          next=$((current + 1))
+          echo "{\"views\":$next}" > stats.json
+
+      - name: Commit and push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add stats.json
+          git commit -m "Update views to $next" || true
+          git push
