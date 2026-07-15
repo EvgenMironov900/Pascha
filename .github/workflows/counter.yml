@@ -1,4 +1,4 @@
-name: Counter Test (no push)
+name: Counter Final
 
 on:
   workflow_dispatch:
@@ -9,15 +9,29 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Read and increment
+      - name: Read, increment and write
+        id: count
         run: |
           current=$(grep -oE '[0-9]+' stats.json)
           if [ -z "$current" ]; then
             current=0
           fi
           next=$((current + 1))
-          echo "Current: $current"
-          echo "Next: $next"
+          # Эти две строчки появятся в «Job summary» — их будет видно сразу
+          echo "Current: $current" >> $GITHUB_STEP_SUMMARY
+          echo "Next: $next" >> $GITHUB_STEP_SUMMARY
+          
           echo "{\"views\":$next}" > stats.json
-          cat stats.json
+          echo "::set-output name=changed::true"
+
+      - name: Commit and push only if changed
+        if: steps.count.outputs.changed == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add stats.json
+          git commit -m "Update views to $next" || true
+          git push
