@@ -12,31 +12,32 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Read, increment and write
-        id: count
+      - name: Read, increment, write and push
         run: |
+          # Читаем число
           current=$(grep -oE '[0-9]+' stats.json)
           if [ -z "$current" ]; then
             current=0
           fi
+
+          # Считаем
           next=$((current + 1))
 
-          # Эти строки появятся в Job summary — их будет видно сразу
+          # Выводим в Job summary — видно сразу, без раскрытия логов
           echo "Current: $current" >> $GITHUB_STEP_SUMMARY
           echo "Next: $next" >> $GITHUB_STEP_SUMMARY
 
+          # Пишем новый JSON
           echo "{\"views\":$next}" > stats.json
-          # Помечаем, что файл изменился
-          echo "changed=true" > "$HOME/counter_changed.flag"
 
-      - name: Commit and push only if changed
-        if: success() && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
-        run: |
-          if [ -f "$HOME/counter_changed.flag" ]; then
-            git config user.name "GitHub Actions"
-            git config user.email "actions@github.com"
+          # Коммитим и пушим только если файл реально изменился
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          if git diff --quiet HEAD -- stats.json; then
+            echo "No changes to stats.json, skipping commit."
+          else
             git add stats.json
-            git commit -m "Update views to $next" || true
+            git commit -m "Update views to $next"
             git push
-            rm "$HOME/counter_changed.flag"
           fi
