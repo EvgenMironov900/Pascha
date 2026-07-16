@@ -173,7 +173,10 @@
   <a href="https://github.com/EvgenMironov900/pascha/blob/main/README.md" target="_blank">О программе</a>
   &nbsp;|&nbsp;
   v1.1.0
-</div>
+  &nbsp;|&nbsp;
+  <img src="https://raw.githubusercontent.com/EvgenMironov900/my-profile-views-counter/main/svg/1208882536/badge.svg" 
+     alt="Просмотры Pascha" 
+     style="vertical-align: middle; height: 20px;" /></div>
 
 <script>
 
@@ -335,26 +338,6 @@
         });
     };
 </script>
-
-<div class="footer" style="display:flex; align-items:center; justify-content:center; gap:8px; font-family:sans-serif; color:#555; font-size:14px;">
-  <span>Просмотры:</span>
-  <span id="site-views">Загрузка...</span>
-</div>
-
-<script>
-  (function() {
-    const el = document.getElementById('site-views');
-    fetch('stats.json')
-      .then(r => r.json())
-      .then(data => {
-        el.textContent = String(data.views || 0);
-      })
-      .catch(() => {
-        el.textContent = '—';
-      });
-  })();
-</script>
-
 </body>
 </html>
 
