@@ -173,61 +173,23 @@
 <div class="footer">
     <a href="https://github.com/EvgenMironov900/pascha/blob/main/README.md" target="_blank">О программе</a> &nbsp;|&nbsp; v1.1.0
     <span style="margin-left: 20px;">
-        👁️ <span id="view-count">0</span>
+        👁️ Просмотров: <span id="viewCount">0</span>
     </span>
 </div>
 
 <script>
-    (function() {
-        // НАСТРОЙКИ - ИЗМЕНИТЕ ЗДЕСЬ
-        const owner = 'EvgenMironov900';
-        const repo = 'Pascha';
-        const issueNumber = 1;   // ← НОМЕР ВАШЕГО ISSUE
-        const token = '';        // ← ПОКА ПУСТО
-
-        const viewSpan = document.getElementById('view-count');
-        let updated = false;
-
-        function updateCounter() {
-            if (updated) return;
-            updated = true;
-
-            fetch(`https://api.github.com/repos/${owner}/${repo}/issues/${issueNumber}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            })
-            .then(response => response.json())
-            .then(issue => {
-                let currentCount = parseInt(issue.body.trim()) || 0;
-                const newCount = currentCount + 1;
-                viewSpan.textContent = newCount;
-
-                return fetch(`https://api.github.com/repos/${owner}/${repo}/issues/${issueNumber}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ body: newCount.toString() })
-                });
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.warn('Не удалось обновить счётчик:', response.status);
-                    updated = false;
-                }
-            })
-            .catch(error => {
-                console.warn('Ошибка при работе со счётчиком:', error);
-                updated = false;
-            });
-        }
-
-        window.addEventListener('load', updateCounter);
-    })();
+    fetch('https://raw.githubusercontent.com/EvgenMironov900/Pascha/main/counter.txt')
+        .then(response => {
+            if (!response.ok) throw new Error('Файл не найден');
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('viewCount').textContent = data.trim();
+        })
+        .catch(error => {
+            console.warn('Счётчик не загружен:', error);
+            document.getElementById('viewCount').textContent = '?';
+        });
 </script>
 
 <script>
